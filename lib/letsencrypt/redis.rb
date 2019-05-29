@@ -13,7 +13,7 @@ module LetsEncrypt
         return unless cert.key.present? && cert.certificate.present?
         LetsEncrypt.logger.info "Save #{cert.domain}'s certificate to redis"
         connection.set "#{cert.domain}.key", cert.key
-        connection.set "#{cert.domain}.crt", cert.certificate
+        connection.set "#{cert.domain}.crt", cert.bundle
       end
     end
   end
