@@ -96,5 +96,9 @@ module LetsEncrypt
     def logger
       LetsEncrypt.logger
     end
+
+    def order
+      @order ||= LetsEncrypt.client.new_order(identifiers: [domain])
+    end
   end
 end

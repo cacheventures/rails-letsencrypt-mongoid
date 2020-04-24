@@ -12,18 +12,18 @@ require 'letsencrypt/redis'
 # :nodoc:
 module LetsEncrypt
   # Production mode API Endpoint
-  ENDPOINT = 'https://acme-v01.api.letsencrypt.org/'
+  ENDPOINT = 'https://acme-v02.api.letsencrypt.org/directory'
 
   # Staging mode API Endpoint, the rate limit is higher
   # but got invalid certificate for testing
-  ENDPOINT_STAGING = 'https://acme-staging.api.letsencrypt.org'
+  ENDPOINT_STAGING = 'https://acme-staging-v02.api.letsencrypt.org/directory'
 
   class << self
     # Create the ACME Client to Let's Encrypt
     def client
       @client ||= ::Acme::Client.new(
         private_key: private_key,
-        endpoint: endpoint
+        directory: directory
       )
     end
 
@@ -44,7 +44,7 @@ module LetsEncrypt
     end
 
     # Get current using Let's Encrypt endpoint
-    def endpoint
+    def directory
       @endpoint ||= config.use_staging? ? ENDPOINT_STAGING : ENDPOINT
     end
 
@@ -55,10 +55,9 @@ module LetsEncrypt
     # connect with domain and assign the owner who can
     # renew and revoked.
     def register(email)
-      registration = client.register(contact: "mailto:#{email}")
+      account = client.new_account(contact: "mailto:#{email}", terms_of_service_agreed: true)
       logger.info "Successfully registered private key with address #{email}"
-      registration.agree_terms
-      logger.info 'Terms have been accepted'
+      account.kid # TODO: Save KID
       true
     end
 

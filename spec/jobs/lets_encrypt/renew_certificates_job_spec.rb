@@ -11,6 +11,10 @@ RSpec.describe LetsEncrypt::RenewCertificatesJob, type: :job do
   end
 
   describe 'starting renew' do
+    before(:each) do
+      expect(LetsEncrypt::Certificate).to receive(:renewable).and_return(certificates)
+    end
+
     let(:certificates) { [LetsEncrypt::Certificate.new] }
 
     it 'do nothing when success' do

@@ -9,9 +9,9 @@ require "letsencrypt/version"
 Gem::Specification.new do |s|
   s.name        = "rails-letsencrypt-mongoid"
   s.version     = LetsEncrypt::VERSION
-  s.authors     = ["蒼時弦也", "Nathan Broadbent"]
-  s.email       = ["elct9620@frost.tw", "rails@ndbroadbent.com"]
-  s.homepage    = "https://github.com/elct9620/rails-letsencrypt"
+  s.authors     = ["蒼時弦也", "Nathan Broadbent", "Jarrett Lusso"]
+  s.email       = ["elct9620@frost.tw", "rails@ndbroadbent.com", "jarrett@cacheventures.com"]
+  s.homepage    = "https://github.com/cacheventures/rails-letsencrypt-mongoid"
   s.summary     = "The Let's Encrypt certificate manager for rails (Mongoid fork)"
   s.description = "The Let's Encrypt certificate manager for rails (Mongoid fork)"
   s.license     = "MIT"
@@ -19,8 +19,8 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   s.require_paths = ["lib"]
 
-  s.add_dependency "rails", ">= 4.0"
-  s.add_dependency "acme-client", "~> 0.6.2"
+  s.add_dependency "rails", ">= 4.1"
+  s.add_dependency "acme-client", "~> 2.0.0"
   s.add_dependency "redis"
   s.add_dependency "mongoid", ">= 4.0"
 
