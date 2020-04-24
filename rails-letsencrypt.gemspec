@@ -9,11 +9,11 @@ require "letsencrypt/version"
 Gem::Specification.new do |s|
   s.name        = "rails-letsencrypt"
   s.version     = LetsEncrypt::VERSION
-  s.authors     = ["蒼時弦也"]
-  s.email       = ["elct9620@frost.tw"]
-  s.homepage    = "https://github.com/elct9620/rails-letsencrypt"
-  s.summary     = "The Let's Encrypt certificate manager for rails"
-  s.description = "The Let's Encrypt certificate manager for rails"
+  s.authors     = ["蒼時弦也", "Nathan Broadbent", "Jarrett Lusso"]
+  s.email       = ["elct9620@frost.tw", "rails@ndbroadbent.com", "jarrett@cacheventures.com"]
+  s.homepage    = "https://github.com/cacheventures/rails-letsencrypt-mongoid"
+  s.summary     = "The Let's Encrypt certificate manager for rails (Mongoid fork)"
+  s.description = "The Let's Encrypt certificate manager for rails (Mongoid fork)"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]

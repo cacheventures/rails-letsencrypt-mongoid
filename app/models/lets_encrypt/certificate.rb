@@ -22,15 +22,18 @@ module LetsEncrypt
   #  index_letsencrypt_certificates_on_domain       (domain)
   #  index_letsencrypt_certificates_on_renew_after  (renew_after)
   #
-  class Certificate < ActiveRecord::Base
+  class Certificate
     include CertificateVerifiable
     include CertificateIssuable
 
     validates :domain, presence: true, uniqueness: true
 
-    scope :active, -> { where('certificate IS NOT NULL AND expires_at > ?', Time.zone.now) }
-    scope :renewable, -> { where('renew_after IS NULL OR renew_after <= ?', Time.zone.now) }
-    scope :expired, -> { where('expires_at <= ?', Time.zone.now) }
+    # scope :active, -> { where('certificate IS NOT NULL AND expires_at > ?', Time.zone.now) }
+    scope :active, -> { where(:certificate.ne => nil, :expires_at.gt => Time.zone.now) }
+    # scope :renewable, -> { where('renew_after IS NULL OR renew_after <= ?', Time.zone.now) }
+    scope :renewable, -> { self.or({ :renew_after => nil }, { :renew_after.lte => Time.zone.now }) }
+    # scope :expired, -> { where('expires_at <= ?', Time.zone.now) }
+    scope :expired, -> { where(:expires_at.lte => Time.zone.now) }
 
     before_create -> { self.key = OpenSSL::PKey::RSA.new(4096).to_s }
     after_save -> { save_to_redis }, if: -> { LetsEncrypt.config.use_redis? && active? }
@@ -53,7 +56,9 @@ module LetsEncrypt
       verify && issue
     end
 
-    alias renew get
+    def renew
+      get
+    end
 
     # Returns full-chain bundled certificates
     def bundle

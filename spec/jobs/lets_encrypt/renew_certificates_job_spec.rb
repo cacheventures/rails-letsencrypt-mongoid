@@ -8,7 +8,7 @@ RSpec.describe LetsEncrypt::RenewCertificatesJob, type: :job do
       .to have_enqueued_job(LetsEncrypt::RenewCertificatesJob)
   end
 
-  describe 'starting rnew' do
+  describe 'starting renew' do
     before(:each) do
       expect(LetsEncrypt::Certificate).to receive(:renewable).and_return(certificates)
     end
